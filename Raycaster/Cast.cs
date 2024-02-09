@@ -29,26 +29,12 @@ namespace Raycaster
                 // Is colliding with square
                 if (!CheckRayCollision(CurrentX, CurrentY))
                 {
-
                     if (Settings.RenderFromFunction)
                     {
-                        if (Settings.RenderPoints)
-                        {
-                            _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
-                                                           (int)CurrentY - Settings.RayPointHalfSize,
-                                                           Settings.RayPointSize, Settings.RayPointSize), Color.White * CurrentOpacity);
-                        }
+                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
+                                                        (int)CurrentY - Settings.RayPointHalfSize,
+                                                        Settings.RayPointSize, Settings.RayPointSize), Color.White * CurrentOpacity);
                     }
-                    else if (Settings.RenderPoints && !Settings.RenderCollisionDistances)
-                    {
-                        Points.Add(new RayPoint()
-                        {
-                            X = (int)CurrentX,
-                            Y = (int)CurrentY,
-                            Opacity = CurrentOpacity
-                        });
-                    }
-
                 }
                 else if (Settings.RenderCollisionDistances)
                 {

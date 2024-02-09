@@ -120,17 +120,6 @@ namespace Raycaster
             Cast.CastRaysFrom(_spriteBatch, 1100, 300, rayPoints);
             Cast.CastRaysFrom(_spriteBatch, 500, 500, rayPoints);
 
-
-            if (!Settings.RenderFromFunction && Settings.RenderPoints)
-            {
-                foreach (RayPoint RPoint in rayPoints)
-                {
-                    _spriteBatch.Draw(White, new Rectangle((int)RPoint.X - Settings.RayPointHalfSize,
-                                                           (int)RPoint.Y - Settings.RayPointHalfSize,
-                                                           Settings.RayPointSize, Settings.RayPointSize), Settings.RayPointColor * RPoint.Opacity);
-                }
-            }
-
             if (Settings.RenderCollisionDistances)
             {
                 foreach (RayPoint RPoint in rayPoints)
