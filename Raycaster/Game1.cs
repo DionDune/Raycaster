@@ -32,7 +32,7 @@ namespace Raycaster
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1800;
+            _graphics.PreferredBackBufferWidth = 1900;
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
 
