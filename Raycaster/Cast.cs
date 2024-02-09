@@ -181,12 +181,19 @@ namespace Raycaster
             {
                 return Color.Red;
             }
+            foreach (Object_Square Square in Game1.Squares)
+            {
+                if (X >= Square.X && X <= Square.X + Object_Square.DefaultWidth &&
+                    Y >= Square.Y && Y <= Square.Y + Object_Square.DefaultHeight)
+                {
+                    return Square.CurrentColor;
+                }
+            }
 
             return null;
         }
 
         public static void CastScreenRays(SpriteBatch _spritebatch, int X, int Y)
-        // This allows *FAR* more detail in the cast. Serves no graphical purpose.
         {
             _spritebatch.Draw(Game1.White, new Rectangle((int)Game1.PlayerX - 3,
                                                          (int)Game1.PlayerY - 3,
