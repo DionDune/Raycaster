@@ -126,6 +126,15 @@ namespace Raycaster
                 }
             }
 
+            if (Settings.RenderCollisionDistances)
+            {
+                foreach (RayPoint RPoint in rayPoints)
+                {
+                    DrawLine(new Vector2(RPoint.OriginX, RPoint.OriginY), RPoint.DistanceFromOrigin, RPoint.AngleFromOrigin, Settings.RayPointColor, 1);
+                }
+            }
+
+
 
             _spriteBatch.End();
 
