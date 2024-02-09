@@ -68,7 +68,7 @@ namespace Raycaster
 
         #region Fundamentals
 
-        void DrawLine(Vector2 point, float Length, float Angle, Color Color, float Thickness)
+        public static void DrawLine(SpriteBatch _spriteBatch, Vector2 point, float Length, float Angle, Color Color, float Thickness)
         {
             var origin = new Vector2(0f, 0.5f);
             var scale = new Vector2(Length, Thickness);
@@ -123,7 +123,7 @@ namespace Raycaster
             {
                 foreach (RayPoint RPoint in rayPoints)
                 {
-                    DrawLine(new Vector2(RPoint.OriginX, RPoint.OriginY), RPoint.DistanceFromOrigin, RPoint.AngleFromOrigin, Settings.RayPointColor, 1);
+                    DrawLine(_spriteBatch ,new Vector2(RPoint.OriginX, RPoint.OriginY), RPoint.DistanceFromOrigin, RPoint.AngleFromOrigin, Settings.RayPointColor, 1);
                 }
             }
 
