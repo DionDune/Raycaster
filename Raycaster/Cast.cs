@@ -224,8 +224,7 @@ namespace Raycaster
         {
             int MaxPoints = (int)(Length / Settings.RayJumpDistance);
             float PointsBeforeCheck = DistanceFromOrig / Settings.RayJumpDistance;
-            float OpacityLoss = 1F / MaxPoints;
-
+            float OpacityLoss = 2F / MaxPoints;
 
             float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
             float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
@@ -246,7 +245,7 @@ namespace Raycaster
                 }
                 else
                 {
-                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), Color.Red);
+                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), Color.Red * (i * OpacityLoss));
 
                     return;
                 }
