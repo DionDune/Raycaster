@@ -58,6 +58,8 @@ namespace Raycaster
                         Y = (int)CurrentY,
                         OriginX = OrigX,
                         OriginY = OrigY,
+                        AngleFromOrigin = Angle,
+                        DistanceFromOrigin = i * Settings.RayJumpDistance,
                         Opacity = CurrentOpacity
                     });
                 }
@@ -127,6 +129,8 @@ namespace Raycaster
 
         public float OriginX { get; set; }
         public float OriginY { get; set; }
+        public float AngleFromOrigin { get; set; }
+        public float DistanceFromOrigin { get; set; }
         
         public float Opacity { get; set; }
 
@@ -137,6 +141,8 @@ namespace Raycaster
             Y = 0;
             OriginX = float.NaN;
             OriginY = float.NaN;
+            AngleFromOrigin = float.NaN;
+            DistanceFromOrigin = float.NaN;
             Opacity = 1f;
         }
     }
