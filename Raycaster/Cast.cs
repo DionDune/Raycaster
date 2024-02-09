@@ -190,7 +190,8 @@ namespace Raycaster
                 new Vector2(Game1.Square.X, Game1.Square.Y + Object_Square.DefaultHeight)
             };
 
-            float DistanceMin = GetDistanceBetween(new Vector2(X, Y), BlockPoints[0]);
+            // Idk why this 32 is neccissarry. The cube should be rendered even if the pos is within it
+            float DistanceMin = GetDistanceBetween(new Vector2(X, Y), BlockPoints[0]) - 32; 
             float DistanceMax = 0;
             foreach (Vector2 Pos in BlockPoints)
             {
@@ -209,14 +210,14 @@ namespace Raycaster
 
 
             int RayCount = 1920;
-            float RayJump = 90F / 1920F; // This each pixel
+            float RayAngleJump = 90F / 1920F; // This each pixel
 
             float CurrentAngle = 0;
             for (int i = 0; i < RayCount; i++)
             {
                 CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
 
-                CurrentAngle += RayJump;
+                CurrentAngle += RayAngleJump;
             }
             int a = 0;
         }
@@ -233,7 +234,7 @@ namespace Raycaster
                 CurrentX += Settings.RayJumpDistance * (float)Math.Cos(Angle);
                 CurrentY += Settings.RayJumpDistance * (float)Math.Sin(Angle);
 
-                // Is colliding with square
+                // Is not colliding with square
                 if (!CheckRayCollision(CurrentX, CurrentY))
                 {
                     if (Settings.RenderAllPoints)
