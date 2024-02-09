@@ -11,7 +11,7 @@ namespace Raycaster
 {
     public class Cast
     {
-        private static void CastSingleRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float Angle, List<RayPoint> Points)
+        private static void CastSingleRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float Angle)
         {
             int MaxPoints = (int)(Settings.RayLegnth / Settings.RayJumpDistance);
             float OpacityLoss = 1F / MaxPoints;
@@ -48,25 +48,17 @@ namespace Raycaster
                 }
             }
         }
-        public static void CastRaysFrom(SpriteBatch _spritebatch, int X, int Y, List<RayPoint> Points)
+        public static void CastRaysFrom(SpriteBatch _spritebatch, int X, int Y)
         {
             int RayCount = (int)(360F / Settings.RayAngleJump);
 
             float CurrentAngle = 0;
             for (int i = 0; i < RayCount; i++)
             {
-                CastSingleRay(_spritebatch, X, Y, CurrentAngle * (float)(Math.PI / 180), Points);
+                CastSingleRay(_spritebatch, X, Y, CurrentAngle * (float)(Math.PI / 180));
 
                 CurrentAngle += Settings.RayAngleJump;
             }
-        }
-        public static List<RayPoint> GetCastPoints(SpriteBatch _spritebatch, int CentreX, int CentreY)
-        {
-            List<RayPoint> rayPoints = new List<RayPoint>();
-
-            CastRaysFrom(_spritebatch, CentreX, CentreY, rayPoints);
-
-            return rayPoints;
         }
 
 

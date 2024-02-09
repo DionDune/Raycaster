@@ -114,18 +114,9 @@ namespace Raycaster
                                                    Object_Square.DefaultWidth, Object_Square.DefaultHeight), Object_Square.Color);
 
             //Ray points
-            List<RayPoint> rayPoints = new List<RayPoint>();
-            Cast.CastRaysFrom(_spriteBatch, 1000, 600, rayPoints);
-            Cast.CastRaysFrom(_spriteBatch, 1100, 300, rayPoints);
-            Cast.CastRaysFrom(_spriteBatch, 500, 500, rayPoints);
-
-            if (Settings.RenderCollisionDistances)
-            {
-                foreach (RayPoint RPoint in rayPoints)
-                {
-                    DrawLine(_spriteBatch ,new Vector2(RPoint.OriginX, RPoint.OriginY), RPoint.DistanceFromOrigin, RPoint.AngleFromOrigin, Settings.RayPointColor, 1);
-                }
-            }
+            Cast.CastRaysFrom(_spriteBatch, 1000, 600);
+            Cast.CastRaysFrom(_spriteBatch, 1100, 300);
+            Cast.CastRaysFrom(_spriteBatch, 500, 500);
 
 
 
