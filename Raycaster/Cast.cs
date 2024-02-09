@@ -178,6 +178,10 @@ namespace Raycaster
         public static void CastScreenRays(SpriteBatch _spritebatch, int X, int Y)
         // This allows *FAR* more detail in the cast. Serves no graphical purpose.
         {
+            _spritebatch.Draw(Game1.White, new Rectangle((int)Game1.PlayerX - 3,
+                                                         (int)Game1.PlayerY - 3,
+                                                         6, 6), Color.Blue);
+
             List<Vector2> BlockPoints = new List<Vector2>()
             {
                 new Vector2(Game1.Square.X, Game1.Square.Y),
