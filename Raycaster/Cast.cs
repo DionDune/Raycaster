@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,44 @@ namespace Raycaster
                 }
             }
         }
+        private static void CastSingleRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float DistanceFromOrig, float Length, float Angle)
+        {
+            int MaxPoints = (int)(Length / Settings.RayJumpDistance);
+            float PointsBeforeCheck = DistanceFromOrig / Settings.RayJumpDistance;
+            float OpacityLoss = 1F / MaxPoints;
+
+
+            float CurrentOpacity = 1;
+            float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
+            float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
+            for (int i = 0; i < MaxPoints; i++)
+            {
+                CurrentX += Settings.RayJumpDistance * (float)Math.Cos(Angle);
+                CurrentY += Settings.RayJumpDistance * (float)Math.Sin(Angle);
+                CurrentOpacity -= OpacityLoss;
+
+                // Is colliding with square
+                if (!CheckRayCollision(CurrentX, CurrentY))
+                {
+                    if (Settings.RenderAllPoints)
+                    {
+                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
+                                                        (int)CurrentY - Settings.RayPointHalfSize,
+                                                        Settings.RayPointSize, Settings.RayPointSize), Color.White * CurrentOpacity);
+                    }
+                }
+                else if (Settings.RenderCollisionDistances)
+                {
+                    Game1.DrawLine(_spritebatch, new Vector2(OrigX, OrigY), (i + PointsBeforeCheck) * Settings.RayJumpDistance, Angle, Color.White, 1);
+
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
         public static void CastRaysFrom(SpriteBatch _spritebatch, int X, int Y)
         {
             int RayCount = (int)(360F / Settings.RayAngleJump);
@@ -61,6 +100,45 @@ namespace Raycaster
             }
         }
 
+        public static void CastRaysObjectDistanceFocus(SpriteBatch _spritebatch, int X, int Y)
+        // This allows *FAR* more detail in the cast. Serves no graphical purpose.
+        {
+            List<Vector2> BlockPoints = new List<Vector2>()
+            {
+                new Vector2(Game1.Square.X, Game1.Square.Y),
+                new Vector2(Game1.Square.X + Object_Square.DefaultWidth, Game1.Square.Y),
+                new Vector2(Game1.Square.X + Object_Square.DefaultWidth, Game1.Square.Y + Object_Square.DefaultHeight),
+                new Vector2(Game1.Square.X, Game1.Square.Y + Object_Square.DefaultHeight)
+            };
+
+            float DistanceMin = GetDistanceBetween(new Vector2(X, Y), BlockPoints[0]);
+            float DistanceMax = 0;
+            foreach (Vector2 Pos in BlockPoints)
+            {
+                float Distance = GetDistanceBetween(new Vector2(X, Y), Pos);
+                if (Distance < DistanceMin)
+                {
+                    DistanceMin = Distance;
+                }
+                else if (Distance > DistanceMax)
+                {
+                    DistanceMax = Distance;
+                }
+            }
+            float DistanceRange = DistanceMax - DistanceMin;
+
+
+
+            int RayCount = (int)(360F / Settings.RayAngleJump);
+
+            float CurrentAngle = 0;
+            for (int i = 0; i < RayCount; i++)
+            {
+                CastSingleRay(_spritebatch, X, Y, DistanceMin, DistanceRange, CurrentAngle * (float)(Math.PI / 180));
+
+                CurrentAngle += Settings.RayAngleJump;
+            }
+        }
 
         public static bool CheckRayCollision(float X, float Y)
         {
