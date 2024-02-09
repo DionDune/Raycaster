@@ -68,6 +68,15 @@ namespace Raycaster
 
         #region Fundamentals
 
+        void DrawLine(Vector2 point, float Length, float Angle, Color Color, float Thickness)
+        {
+            var origin = new Vector2(0f, 0.5f);
+            var scale = new Vector2(Length, Thickness);
+
+            _spriteBatch.Draw(White, point, null, Color, Angle, origin, scale, SpriteEffects.None, 0);
+        }
+
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
