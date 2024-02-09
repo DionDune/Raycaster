@@ -26,5 +26,6 @@ namespace Raycaster
         // Saving each point may be neccessary for other applications though
         public static bool RenderAllPoints = true;
         public static bool RenderCollisionDistances = true;
+        public static bool GameRender = false;
     }
 }

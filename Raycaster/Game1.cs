@@ -96,6 +96,10 @@ namespace Raycaster
             {
                 Settings.RenderCollisionDistances = !Settings.RenderCollisionDistances;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.X) && !Keys_BeingPressed.Contains(Keys.X))
+            {
+                Settings.GameRender = !Settings.GameRender;
+            }
             Keys_BeingPressed = Keyboard.GetState().GetPressedKeys().ToList();
 
 
@@ -114,10 +118,17 @@ namespace Raycaster
                                                    Square.Y, 
                                                    Object_Square.DefaultWidth, Object_Square.DefaultHeight), Object_Square.Color);
 
-            //Ray points
-            Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1000, 600);
-            Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1100, 300);
-            Cast.CastRaysFrom(_spriteBatch, 500, 500);
+            if (!Settings.GameRender)
+            {
+                // Ray points
+                Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1000, 600);
+                Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1100, 300);
+                Cast.CastRaysFrom(_spriteBatch, 500, 500);
+            }
+            else
+            {
+                Cast.CastScreenRays(_spriteBatch, 900, 500);
+            }
 
 
             
