@@ -100,6 +100,18 @@ namespace Raycaster
             {
                 Settings.GameRender = !Settings.GameRender;
             }
+
+            if (Settings.GameRender)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    PlayerRotation -= 0.5F;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    PlayerRotation += 0.5F;
+                }
+            }
             Keys_BeingPressed = Keyboard.GetState().GetPressedKeys().ToList();
 
 
