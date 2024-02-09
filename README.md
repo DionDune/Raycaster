@@ -7,13 +7,14 @@
   
 ### Game Camera Mode Controls:
 - `P` - Place GameCube
-
+-
+- `Q` - Rotate Camera left
+- `E` - Rotate Camera right
+- 
 - `A` - Move Camera left
 - `D` - Move Camera right
 - `W` - Move Camera forward
 - `S` - Move Camera backward
 
-- `Q` - Rotate Camera left
-- `E` - Rotate Camera right
 
 <br>
