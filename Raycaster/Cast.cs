@@ -39,7 +39,7 @@ namespace Raycaster
                                                            Settings.RayPointSize, Settings.RayPointSize), Color.White * CurrentOpacity);
                         }
                     }
-                    else
+                    else if (Settings.RenderPoints && !Settings.RenderCollisionDistances)
                     {
                         Points.Add(new RayPoint()
                         {
@@ -62,6 +62,8 @@ namespace Raycaster
                         DistanceFromOrigin = i * Settings.RayJumpDistance,
                         Opacity = CurrentOpacity
                     });
+
+                    return;
                 }
                 else
                 {
