@@ -11,15 +11,15 @@ namespace Raycaster
 {
     public class Cast
     {
-        private static void CastSingleRay(SpriteBatch _spritebatch, int X, int Y, float Angle, List<RayPoint> Points)
+        private static void CastSingleRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float Angle, List<RayPoint> Points)
         {
             int MaxPoints = (int)(Settings.RayLegnth / Settings.RayJumpDistance);
             float OpacityLoss = 1F / MaxPoints;
 
 
             float CurrentOpacity = 1;
-            float CurrentX = X;
-            float CurrentY = Y;
+            float CurrentX = OrigX;
+            float CurrentY = OrigY;
             for (int i = 0; i < MaxPoints; i++)
             {
                 CurrentX += Settings.RayJumpDistance * (float)Math.Cos(Angle);
@@ -32,9 +32,12 @@ namespace Raycaster
 
                     if (Settings.RenderFromFunction)
                     {
-                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
+                        if (Settings.RenderPoints)
+                        {
+                            _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
                                                            (int)CurrentY - Settings.RayPointHalfSize,
                                                            Settings.RayPointSize, Settings.RayPointSize), Color.White * CurrentOpacity);
+                        }
                     }
                     else
                     {
@@ -46,6 +49,17 @@ namespace Raycaster
                         });
                     }
 
+                }
+                else if (Settings.RenderCollisionDistances)
+                {
+                    Points.Add(new RayPoint()
+                    {
+                        X = (int)CurrentX,
+                        Y = (int)CurrentY,
+                        OriginX = OrigX,
+                        OriginY = OrigY,
+                        Opacity = CurrentOpacity
+                    });
                 }
                 else
                 {
@@ -110,6 +124,9 @@ namespace Raycaster
     {
         public float X { get; set; }
         public float Y { get; set; }
+
+        public float OriginX { get; set; }
+        public float OriginY { get; set; }
         
         public float Opacity { get; set; }
 
@@ -118,6 +135,8 @@ namespace Raycaster
         {
             X = 0; 
             Y = 0;
+            OriginX = float.NaN;
+            OriginY = float.NaN;
             Opacity = 1f;
         }
     }

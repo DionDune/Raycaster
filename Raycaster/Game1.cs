@@ -107,7 +107,7 @@ namespace Raycaster
             Cast.CastRaysFrom(_spriteBatch, 500, 500, rayPoints);
 
 
-            if (!Settings.RenderFromFunction)
+            if (!Settings.RenderFromFunction && Settings.RenderPoints)
             {
                 foreach (RayPoint RPoint in rayPoints)
                 {
