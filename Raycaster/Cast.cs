@@ -29,7 +29,7 @@ namespace Raycaster
                 // Is colliding with square
                 if (!CheckRayCollision(CurrentX, CurrentY))
                 {
-                    if (Settings.RenderFromFunction)
+                    if (Settings.RenderAllPoints)
                     {
                         _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
                                                         (int)CurrentY - Settings.RayPointHalfSize,

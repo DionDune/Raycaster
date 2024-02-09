@@ -24,7 +24,7 @@ namespace Raycaster
 
         // Rendering directly from function, rather than saving them, reduces CPU strain by about 30%
         // Saving each point may be neccessary for other applications though
-        public static bool RenderFromFunction = true;
+        public static bool RenderAllPoints = true;
         public static bool RenderCollisionDistances = false;
     }
 }

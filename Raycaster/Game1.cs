@@ -89,7 +89,7 @@ namespace Raycaster
 
             if (Keyboard.GetState().IsKeyDown(Keys.V) && !Keys_BeingPressed.Contains(Keys.V))
             {
-                Settings.RenderFromFunction = !Settings.RenderFromFunction;
+                Settings.RenderAllPoints = !Settings.RenderAllPoints;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.C) && !Keys_BeingPressed.Contains(Keys.C))
             {
