@@ -174,6 +174,16 @@ namespace Raycaster
 
 
 
+        public static Color? GetScreenRayCollisionType(float X, float Y)
+        {
+            if (X >= Game1.Square.X && X <= Game1.Square.X + Object_Square.DefaultWidth &&
+                Y >= Game1.Square.Y && Y <= Game1.Square.Y + Object_Square.DefaultHeight)
+            {
+                return Color.Red;
+            }
+
+            return null;
+        }
 
         public static void CastScreenRays(SpriteBatch _spritebatch, int X, int Y)
         // This allows *FAR* more detail in the cast. Serves no graphical purpose.
@@ -234,8 +244,10 @@ namespace Raycaster
                 CurrentX += Settings.GameRayJumpDistance * (float)Math.Cos(Angle);
                 CurrentY += Settings.GameRayJumpDistance * (float)Math.Sin(Angle);
 
+
+                Color? CollionType = GetScreenRayCollisionType(CurrentX, CurrentY);
                 // Is not colliding with square
-                if (!CheckRayCollision(CurrentX, CurrentY))
+                if (CollionType == null)
                 {
                     if (Settings.RenderAllPoints)
                     {
@@ -246,7 +258,7 @@ namespace Raycaster
                 }
                 else
                 {
-                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), Color.Red * (1 - (i * OpacityLoss)));
+                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), (Color)CollionType * (1 - (i * OpacityLoss)));
 
                     return;
                 }
