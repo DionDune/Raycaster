@@ -272,7 +272,9 @@ namespace Raycaster
                 }
                 else
                 {
-                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, (int)Settings.GameCastRayWidth, 1080), (Color)CollionType * (1 - (i * OpacityLoss)));
+                    int CubeHeight = (int)( 180F / (GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY)) / 100) );
+
+                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.GameCastRayWidth, CubeHeight), (Color)CollionType * (1 - (i * OpacityLoss)));
 
                     return;
                 }
