@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,7 @@ namespace Raycaster
         public static float PlayerRotation = 180;
         public static float PlayerX = 900;
         public static float PlayerY = 500;
+        public static float PlayerSpeed = 2F;
 
         public static Texture2D White;
         Settings Settings;
@@ -112,6 +114,16 @@ namespace Raycaster
                 else if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     PlayerRotation += 0.5F;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    PlayerX += PlayerSpeed * (float)Math.Cos(PlayerRotation * (Math.PI / 180));
+                    PlayerY += PlayerSpeed * (float)Math.Sin(PlayerRotation * (Math.PI / 180));
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    PlayerX -= PlayerSpeed * (float)Math.Cos(PlayerRotation * (Math.PI / 180));
+                    PlayerY -= PlayerSpeed * (float)Math.Sin(PlayerRotation * (Math.PI / 180));
                 }
             }
             Keys_BeingPressed = Keyboard.GetState().GetPressedKeys().ToList();
