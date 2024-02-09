@@ -114,8 +114,8 @@ namespace Raycaster
                                                    Object_Square.DefaultWidth, Object_Square.DefaultHeight), Object_Square.Color);
 
             //Ray points
-            Cast.CastRaysFrom(_spriteBatch, 1000, 600);
-            Cast.CastRaysFrom(_spriteBatch, 1100, 300);
+            Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1000, 600);
+            Cast.CastRaysObjectDistanceFocus(_spriteBatch, 1100, 300);
             Cast.CastRaysFrom(_spriteBatch, 500, 500);
 
 
