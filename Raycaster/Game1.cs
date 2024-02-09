@@ -18,6 +18,7 @@ namespace Raycaster
         public static List<RayPoint> RayPoints;
         public static Object_Square Square;
 
+        public static float PlayerRotation = 180;
 
         public static Texture2D White;
         Settings Settings;
@@ -119,7 +120,7 @@ namespace Raycaster
             Cast.CastRaysFrom(_spriteBatch, 500, 500);
 
 
-
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);

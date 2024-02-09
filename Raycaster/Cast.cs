@@ -169,6 +169,86 @@ namespace Raycaster
 
             return Distance;
         }
+
+
+
+
+
+
+        public static void CastScreenRays(SpriteBatch _spritebatch, int X, int Y)
+        // This allows *FAR* more detail in the cast. Serves no graphical purpose.
+        {
+            List<Vector2> BlockPoints = new List<Vector2>()
+            {
+                new Vector2(Game1.Square.X, Game1.Square.Y),
+                new Vector2(Game1.Square.X + Object_Square.DefaultWidth, Game1.Square.Y),
+                new Vector2(Game1.Square.X + Object_Square.DefaultWidth, Game1.Square.Y + Object_Square.DefaultHeight),
+                new Vector2(Game1.Square.X, Game1.Square.Y + Object_Square.DefaultHeight)
+            };
+
+            float DistanceMin = GetDistanceBetween(new Vector2(X, Y), BlockPoints[0]);
+            float DistanceMax = 0;
+            foreach (Vector2 Pos in BlockPoints)
+            {
+                float Distance = GetDistanceBetween(new Vector2(X, Y), Pos);
+                if (Distance < DistanceMin)
+                {
+                    DistanceMin = Distance;
+                }
+                else if (Distance > DistanceMax)
+                {
+                    DistanceMax = Distance;
+                }
+            }
+            float DistanceRange = DistanceMax - DistanceMin;
+
+
+
+            int RayCount = 1920;
+            float RayJump = 90F / 1920F; // This each pixel
+
+            float CurrentAngle = 0;
+            for (int i = 0; i < RayCount; i++)
+            {
+                CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
+
+                CurrentAngle += RayJump;
+            }
+            int a = 0;
+        }
+        private static void CastSingleScreenRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance)
+        {
+            int MaxPoints = (int)(Length / Settings.RayJumpDistance);
+            float PointsBeforeCheck = DistanceFromOrig / Settings.RayJumpDistance;
+            float OpacityLoss = 1F / MaxPoints;
+
+
+            float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
+            float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
+            for (int i = 0; i < MaxPoints; i++)
+            {
+                CurrentX += Settings.RayJumpDistance * (float)Math.Cos(Angle);
+                CurrentY += Settings.RayJumpDistance * (float)Math.Sin(Angle);
+
+                // Is colliding with square
+                if (!CheckRayCollision(CurrentX, CurrentY))
+                {
+                    if (Settings.RenderAllPoints)
+                    {
+                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
+                                                        (int)CurrentY - Settings.RayPointHalfSize,
+                                                        Settings.RayPointSize, Settings.RayPointSize), Color.White * 0.05F);
+                    }
+                }
+                else
+                {
+                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), Color.Red);
+
+                    return;
+                }
+            }
+        }
+
     }
 
     public class RayPoint
