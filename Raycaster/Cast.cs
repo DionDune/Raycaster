@@ -199,7 +199,7 @@ namespace Raycaster
                                                          (int)Game1.PlayerY - 3,
                                                          6, 6), Color.Blue);
 
-            /*
+            
             List<Vector2> BlockPoints = new List<Vector2>()
             {
                 new Vector2(Game1.Square.X, Game1.Square.Y),
@@ -207,6 +207,13 @@ namespace Raycaster
                 new Vector2(Game1.Square.X + Object_Square.DefaultWidth, Game1.Square.Y + Object_Square.DefaultHeight),
                 new Vector2(Game1.Square.X, Game1.Square.Y + Object_Square.DefaultHeight)
             };
+            foreach (Object_Square Square in Game1.Squares)
+            {
+                BlockPoints.Add(new Vector2(Square.X, Square.Y));
+                BlockPoints.Add(new Vector2(Square.X + Object_Square.DefaultWidth, Square.Y));
+                BlockPoints.Add(new Vector2(Square.X + Object_Square.DefaultWidth, Square.Y + Object_Square.DefaultHeight));
+                BlockPoints.Add(new Vector2(Square.X, Square.Y + Object_Square.DefaultHeight));
+            }
 
             // Idk why this 32 is neccissarry. The cube should be rendered even if the pos is within it
             float DistanceMin = GetDistanceBetween(new Vector2(X, Y), BlockPoints[0]) - 32; 
@@ -225,7 +232,7 @@ namespace Raycaster
             }
             float DistanceRange = DistanceMax - DistanceMin;
 
-            */
+            
 
             int RayCount = 1920;
             float RayAngleJump = 120F / 1920F; // This each pixel
@@ -233,8 +240,7 @@ namespace Raycaster
             float CurrentAngle = 0;
             for (int i = 0; i < RayCount; i++)
             {
-                //                                      Distance, DistanceRange, instead of 0, 500 for QUALITY
-                CastSingleScreenRay(_spritebatch, X, Y, 0, 500, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
+                CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
 
                 CurrentAngle += RayAngleJump;
             }
