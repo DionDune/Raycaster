@@ -234,17 +234,16 @@ namespace Raycaster
 
             
 
-            int RayCount = 1920;
-            float RayAngleJump = 120F / 1920F; // This each pixel
+            int RayCount = Settings.GameCastRayDefault;
+            float RayAngleJump = 120F / (float)RayCount; // This each pixel
 
             float CurrentAngle = 0;
             for (int i = 0; i < RayCount; i++)
             {
-                CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
+                CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), (int)(i * Settings.GameCastRayWidth));
 
                 CurrentAngle += RayAngleJump;
             }
-            int a = 0;
         }
         private static void CastSingleScreenRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance)
         {
@@ -273,7 +272,7 @@ namespace Raycaster
                 }
                 else
                 {
-                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, 1, 1080), (Color)CollionType * (1 - (i * OpacityLoss)));
+                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 0, (int)Settings.GameCastRayWidth, 1080), (Color)CollionType * (1 - (i * OpacityLoss)));
 
                     return;
                 }

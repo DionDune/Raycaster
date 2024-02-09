@@ -17,6 +17,8 @@ namespace Raycaster
         public const float RayLegnth = 500;
 
         public const float GameRayJumpDistance = 2F;
+        public const int GameCastRayDefault = 920;
+        public const float GameCastRayWidth = 2;
 
         public const int RayPointSize = 2;
         public const int RayPointHalfSize = RayPointSize / 2;
