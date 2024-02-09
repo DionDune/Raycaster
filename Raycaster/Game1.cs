@@ -19,6 +19,8 @@ namespace Raycaster
         public static Object_Square Square;
 
         public static float PlayerRotation = 180;
+        public static float PlayerX = 900;
+        public static float PlayerY = 500;
 
         public static Texture2D White;
         Settings Settings;
@@ -139,7 +141,7 @@ namespace Raycaster
             }
             else
             {
-                Cast.CastScreenRays(_spriteBatch, 900, 500);
+                Cast.CastScreenRays(_spriteBatch, (int)PlayerX, (int)PlayerY);
             }
 
 
