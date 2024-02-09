@@ -117,13 +117,13 @@ namespace Raycaster
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    PlayerX += PlayerSpeed * (float)Math.Cos(PlayerRotation * (Math.PI / 180));
-                    PlayerY += PlayerSpeed * (float)Math.Sin(PlayerRotation * (Math.PI / 180));
+                    PlayerX += PlayerSpeed * (float)Math.Cos((PlayerRotation + 45) * (Math.PI / 180));
+                    PlayerY += PlayerSpeed * (float)Math.Sin((PlayerRotation + 45) * (Math.PI / 180));
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    PlayerX -= PlayerSpeed * (float)Math.Cos(PlayerRotation * (Math.PI / 180));
-                    PlayerY -= PlayerSpeed * (float)Math.Sin(PlayerRotation * (Math.PI / 180));
+                    PlayerX -= PlayerSpeed * (float)Math.Cos((PlayerRotation + 45) * (Math.PI / 180));
+                    PlayerY -= PlayerSpeed * (float)Math.Sin((PlayerRotation + 45) * (Math.PI / 180));
                 }
             }
             Keys_BeingPressed = Keyboard.GetState().GetPressedKeys().ToList();
