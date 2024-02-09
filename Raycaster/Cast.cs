@@ -303,5 +303,7 @@ namespace Raycaster
         public int Y { get; set; }
 
         public float Opacity { get; set; }
+
+        public Color CurrentColor {get; set;}
     }
 }

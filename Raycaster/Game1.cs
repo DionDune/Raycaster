@@ -18,6 +18,7 @@ namespace Raycaster
 
         public static List<RayPoint> RayPoints;
         public static Object_Square Square;
+        public static List<Object_Square> Squares;
 
         public static float PlayerRotation = 180;
         public static float PlayerX = 900;
@@ -48,6 +49,7 @@ namespace Raycaster
 
             RayPoints = new List<RayPoint>();
             Square = new Object_Square() { X = 0, Y = 0 };
+            Squares = new List<Object_Square>();
 
 
             base.Initialize();
@@ -105,6 +107,16 @@ namespace Raycaster
                 Settings.GameRender = !Settings.GameRender;
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !Keys_BeingPressed.Contains(Keys.P))
+            {
+                Squares.Add(new Object_Square()
+                {
+                    X = Mouse.GetState().X,
+                    Y = Mouse.GetState().Y,
+                    CurrentColor = Color.Turquoise
+                });
+            }
+
             if (Settings.GameRender)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -154,6 +166,13 @@ namespace Raycaster
             else
             {
                 Cast.CastScreenRays(_spriteBatch, (int)PlayerX, (int)PlayerY);
+
+                foreach (Object_Square Square in Squares)
+                {
+                    _spriteBatch.Draw(White, new Rectangle(Square.X,
+                                                           Square.Y,
+                                                            Object_Square.DefaultWidth, Object_Square.DefaultHeight), Square.CurrentColor);
+                }
             }
 
 
