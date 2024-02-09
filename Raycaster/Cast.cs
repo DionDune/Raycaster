@@ -223,16 +223,16 @@ namespace Raycaster
         }
         private static void CastSingleScreenRay(SpriteBatch _spritebatch, int OrigX, int OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance)
         {
-            int MaxPoints = (int)(Length / Settings.RayJumpDistance);
-            float PointsBeforeCheck = DistanceFromOrig / Settings.RayJumpDistance;
+            int MaxPoints = (int)(Length / Settings.GameRayJumpDistance);
+            float PointsBeforeCheck = DistanceFromOrig / Settings.GameRayJumpDistance;
             float OpacityLoss = 2F / MaxPoints;
 
             float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
             float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
             for (int i = 0; i < MaxPoints; i++)
             {
-                CurrentX += Settings.RayJumpDistance * (float)Math.Cos(Angle);
-                CurrentY += Settings.RayJumpDistance * (float)Math.Sin(Angle);
+                CurrentX += Settings.GameRayJumpDistance * (float)Math.Cos(Angle);
+                CurrentY += Settings.GameRayJumpDistance * (float)Math.Sin(Angle);
 
                 // Is not colliding with square
                 if (!CheckRayCollision(CurrentX, CurrentY))
