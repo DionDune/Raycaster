@@ -38,16 +38,7 @@ namespace Raycaster
                 }
                 else if (Settings.RenderCollisionDistances)
                 {
-                    Points.Add(new RayPoint()
-                    {
-                        X = (int)CurrentX,
-                        Y = (int)CurrentY,
-                        OriginX = OrigX,
-                        OriginY = OrigY,
-                        AngleFromOrigin = Angle,
-                        DistanceFromOrigin = i * Settings.RayJumpDistance,
-                        Opacity = CurrentOpacity
-                    });
+                    Game1.DrawLine(_spritebatch, new Vector2(OrigX, OrigY), i * Settings.RayJumpDistance, Angle, Color.White, 1);
 
                     return;
                 }
