@@ -119,13 +119,23 @@ namespace Raycaster
 
             if (Settings.GameRender)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 {
                     PlayerRotation -= 0.5F;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                else if (Keyboard.GetState().IsKeyDown(Keys.E))
                 {
                     PlayerRotation += 0.5F;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    PlayerX -= PlayerSpeed * (float)Math.Cos((PlayerRotation + 135) * (Math.PI / 180));
+                    PlayerY -= PlayerSpeed * (float)Math.Sin((PlayerRotation + 135) * (Math.PI / 180));
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    PlayerX += PlayerSpeed * (float)Math.Cos((PlayerRotation + 135) * (Math.PI / 180));
+                    PlayerY += PlayerSpeed * (float)Math.Sin((PlayerRotation + 135) * (Math.PI / 180));
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
