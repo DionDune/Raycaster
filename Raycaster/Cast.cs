@@ -199,6 +199,7 @@ namespace Raycaster
                                                          (int)Game1.PlayerY - 3,
                                                          6, 6), Color.Blue);
 
+            /*
             List<Vector2> BlockPoints = new List<Vector2>()
             {
                 new Vector2(Game1.Square.X, Game1.Square.Y),
@@ -224,15 +225,16 @@ namespace Raycaster
             }
             float DistanceRange = DistanceMax - DistanceMin;
 
-
+            */
 
             int RayCount = 1920;
-            float RayAngleJump = 90F / 1920F; // This each pixel
+            float RayAngleJump = 120F / 1920F; // This each pixel
 
             float CurrentAngle = 0;
             for (int i = 0; i < RayCount; i++)
             {
-                CastSingleScreenRay(_spritebatch, X, Y, DistanceMin, DistanceRange, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
+                //                                      Distance, DistanceRange, instead of 0, 500 for QUALITY
+                CastSingleScreenRay(_spritebatch, X, Y, 0, 500, (Game1.PlayerRotation + CurrentAngle) * (float)(Math.PI / 180), i);
 
                 CurrentAngle += RayAngleJump;
             }
