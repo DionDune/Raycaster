@@ -94,7 +94,6 @@ namespace Raycaster
             if (Keyboard.GetState().IsKeyDown(Keys.C) && !Keys_BeingPressed.Contains(Keys.C))
             {
                 Settings.RenderCollisionDistances = !Settings.RenderCollisionDistances;
-                Settings.RenderFromFunction = !Settings.RenderCollisionDistances;
             }
             Keys_BeingPressed = Keyboard.GetState().GetPressedKeys().ToList();
 
