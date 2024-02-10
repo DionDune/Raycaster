@@ -22,7 +22,10 @@ namespace RaycastGame
         Settings Settings;
         Player Player;
 
+        public static Texture2D Tree;
+
         public static Color TreeCol = new Color(0, 1, 0);
+        public static List<Point> RenderedSpritePositions = new List<Point>();
 
         public static List<List<Color?>> GameGrid;
         public static int GridScreenDivisor = 2;
@@ -75,6 +78,7 @@ namespace RaycastGame
 
             Key = Content.Load<Texture2D>("key");
             Sky = Content.Load<Texture2D>("sky");
+            Tree = Content.Load<Texture2D>("Tree1");
         }
 
 
