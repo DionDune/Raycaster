@@ -111,5 +111,21 @@ namespace RaycastGame
                 }
             }
         }
+
+        public static void ScatterSprites(List<List<Color?>> Grid, int SpriteCount)
+        {
+            for (int i = 0; i < SpriteCount; i++)
+            {
+                int X = Game1.random.Next(1, Grid.Count - 1);
+                int Y = Game1.random.Next(1, Grid.Count - 1);
+                while (Grid[Y][X] != null)
+                {
+                    X = Game1.random.Next(1, Grid.Count - 1);
+                    Y = Game1.random.Next(1, Grid.Count - 1);
+                }
+
+                Grid[Y][X] = Game1.TreeCol;
+            }
+        }
     }
 }

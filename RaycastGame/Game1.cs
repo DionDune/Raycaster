@@ -22,6 +22,8 @@ namespace RaycastGame
         Settings Settings;
         Player Player;
 
+        public static Color TreeCol = new Color(0, 1, 0);
+
         public static List<List<Color?>> GameGrid;
         public static int GridScreenDivisor = 2;
 
@@ -55,6 +57,7 @@ namespace RaycastGame
             GameGrid = new List<List<Color?>>();
             Grid.GenerateBase(GameGrid, GridSlotCountX, GridSlotCountY);
             Grid.GenerateMaze(GameGrid, 14, null, true);
+            Grid.ScatterSprites(GameGrid, 1000);
 
 
 
