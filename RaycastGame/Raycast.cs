@@ -44,6 +44,8 @@ namespace RaycastGame
 
                 CurrentAngle += RayAngleJump;
             }
+
+            Game1.RenderedSpritePositions.Clear();
         }
         private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance)
         {
@@ -75,14 +77,36 @@ namespace RaycastGame
                     int CubeHeight = (int)(180F / (GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY)) / 100));
 
 
-                    _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), (Color)CollionType);
-                    if (Settings.CastDistanceShadow)
+
+                    if (CollionType == Game1.TreeCol)
                     {
-                        _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), Color.Black * ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult) );
+                        Point GridPos = new Point((int)(CurrentX / Game1.GridScreenDivisor), (int)(CurrentY / Game1.GridScreenDivisor));
+
+                        if (!Game1.RenderedSpritePositions.Contains(GridPos))
+                        {
+                            _spritebatch.Draw(Game1.Tree, new Rectangle(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F), (int)(CubeHeight * 2F), (int)(CubeHeight * 2F)), Color.White);
+
+                            if (Settings.CastDistanceShadow)
+                            {
+                                _spritebatch.Draw(Game1.Tree, new Rectangle(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F), (int)(CubeHeight * 2F), (int)(CubeHeight * 2F)), Color.Black * ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult));
+                            }
+                            
+                            Game1.RenderedSpritePositions.Add(GridPos);
+                        }
+                        return;
                     }
+                    else 
+                    {
+                        _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), (Color)CollionType);
 
+                        if (Settings.CastDistanceShadow)
+                        {
+                            _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), Color.Black * ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult));
+                        }
 
-                    return;
+                        return;
+                    }
+                    
                 }
             }
         }
