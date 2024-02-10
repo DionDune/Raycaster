@@ -60,7 +60,7 @@ namespace RaycastGame
             GameGrid = new List<List<Color?>>();
             Grid.GenerateBase(GameGrid, GridSlotCountX, GridSlotCountY);
             Grid.GenerateMaze(GameGrid, 14, null, true);
-            Grid.ScatterSprites(GameGrid, 400);
+            //Grid.ScatterSprites(GameGrid, 400);
 
 
 
