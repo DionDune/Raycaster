@@ -23,12 +23,12 @@ namespace RaycastGame
             int XGridPos = (int)(X / Game1.GridScreenDivisor);
             int YGridPos = (int)(Y / Game1.GridScreenDivisor);
 
-            if (XGridPos < 5 || YGridPos < 5 || XGridPos > Game1.Grid[0].Count - 5 || YGridPos > Game1.Grid.Count - 5)
+            if (XGridPos < 5 || YGridPos < 5 || XGridPos > Game1.GameGrid[0].Count - 5 || YGridPos > Game1.GameGrid.Count - 5)
             {
                 return null;
             }
 
-            return Game1.Grid[YGridPos][XGridPos];
+            return Game1.GameGrid[YGridPos][XGridPos];
         }
 
         public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation)

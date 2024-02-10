@@ -12,7 +12,7 @@ namespace RaycastGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Random random = new Random();
+        public static Random random = new Random();
 
         public static Texture2D White;
         public static Texture2D Sky;
@@ -22,7 +22,7 @@ namespace RaycastGame
         Settings Settings;
         Player Player;
 
-        public static List<List<Color?>> Grid;
+        public static List<List<Color?>> GameGrid;
         public static int GridScreenDivisor = 2;
 
 
@@ -50,18 +50,13 @@ namespace RaycastGame
 
 
             //Create Grid
-            Grid = new List<List<Color?>>();
-            for (int y = 0; y < _graphics.PreferredBackBufferHeight / GridScreenDivisor; y++)
-            {
-                Grid.Add(new List<Color?>());
-                for (int x = 0; x < _graphics.PreferredBackBufferWidth / GridScreenDivisor; x++)
-                {
-                    Grid[y].Add(null);
-                }
-            }
+            int GridSlotCountX = _graphics.PreferredBackBufferWidth / GridScreenDivisor;
+            int GridSlotCountY = _graphics.PreferredBackBufferHeight / GridScreenDivisor;
+            GameGrid = new List<List<Color?>>();
+            Grid.GenerateBase(GameGrid, GridSlotCountX, GridSlotCountY);
+            Grid.GenerateMaze(GameGrid, 14, null, true);
 
 
-            CreateMaze(14);
 
             base.Initialize();
         }
@@ -80,92 +75,9 @@ namespace RaycastGame
         }
 
 
-        public void CreateMaze(int CubeSize)
-        {
-            CreateGridSquare(3, 1, CubeSize);
-            CreateGridSquare(4, 1, CubeSize);
-            CreateGridSquare(5, 1, CubeSize);
-            CreateGridSquare(6, 1, CubeSize);
 
-            CreateGridSquare(2, 2, CubeSize);
-            CreateGridSquare(7, 2, CubeSize);
 
-            CreateGridSquare(2, 3, CubeSize);
-            CreateGridSquare(4, 3, CubeSize);
-            CreateGridSquare(5, 3, CubeSize);
-            CreateGridSquare(7, 3, CubeSize);
 
-            CreateGridSquare(1, 4, CubeSize);
-            CreateGridSquare(4, 4, CubeSize);
-            CreateGridSquare(5, 4, CubeSize);
-            CreateGridSquare(7, 4, CubeSize);
-            CreateGridSquare(8, 4, CubeSize);
-            CreateGridSquare(9, 4, CubeSize);
-
-            CreateGridSquare(1, 5, CubeSize);
-            CreateGridSquare(4, 5, CubeSize);
-            CreateGridSquare(5, 5, CubeSize);
-            CreateGridSquare(10, 5, CubeSize);
-
-            CreateGridSquare(1, 6, CubeSize);
-            CreateGridSquare(3, 6, CubeSize);
-            CreateGridSquare(4, 6, CubeSize);
-            CreateGridSquare(7, 6, CubeSize);
-            CreateGridSquare(8, 6, CubeSize);
-            CreateGridSquare(10, 6, CubeSize);
-
-            CreateGridSquare(1, 7, CubeSize);
-            CreateGridSquare(3, 7, CubeSize);
-            CreateGridSquare(6, 7, CubeSize);
-            CreateGridSquare(7, 7, CubeSize);
-            CreateGridSquare(8, 7, CubeSize);
-            CreateGridSquare(10, 7, CubeSize);
-
-            CreateGridSquare(1, 8, CubeSize);
-            CreateGridSquare(3, 8, CubeSize);
-            CreateGridSquare(5, 8, CubeSize);
-            CreateGridSquare(6, 8, CubeSize);
-            CreateGridSquare(7, 8, CubeSize);
-            CreateGridSquare(8, 8, CubeSize);
-            CreateGridSquare(11, 8, CubeSize);
-
-            CreateGridSquare(1, 9, CubeSize);
-            CreateGridSquare(3, 9, CubeSize);
-            CreateGridSquare(5, 9, CubeSize);
-            CreateGridSquare(6, 9, CubeSize);
-            CreateGridSquare(7, 9, CubeSize);
-            CreateGridSquare(8, 9, CubeSize);
-            CreateGridSquare(9, 9, CubeSize);
-            CreateGridSquare(11, 9, CubeSize);
-
-            CreateGridSquare(1, 10, CubeSize);
-            CreateGridSquare(5, 10, CubeSize);
-            CreateGridSquare(6, 10, CubeSize);
-            CreateGridSquare(7, 10, CubeSize);
-            CreateGridSquare(8, 10, CubeSize);
-            CreateGridSquare(9, 10, CubeSize);
-            CreateGridSquare(11, 10, CubeSize);
-
-            CreateGridSquare(2, 11, CubeSize);
-            CreateGridSquare(3, 11, CubeSize);
-            CreateGridSquare(4, 11, CubeSize);
-            CreateGridSquare(10, 11, CubeSize);
-
-            Grid[34][64] = Color.Gold;
-        }
-        public void CreateGridSquare(int x, int y, int Size)
-        {
-            int StartX = x * Size;
-            int StartY = y * Size;
-
-            for (int i = 0; i < Size; i++)
-            {
-                for (int X = 0; X < Size; X++)
-                {
-                    Grid[StartY + i][StartX + X] = new Color(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
-                }
-            }
-        }
 
 
         protected override void Update(GameTime gameTime)
@@ -185,8 +97,8 @@ namespace RaycastGame
                 {
                     for (int x = 0; x < 10; x++)
                     {
-                        Grid[(Mouse.GetState().Y / GridScreenDivisor) + y]
-                            [(Mouse.GetState().X / GridScreenDivisor) + x] = new Color(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
+                        GameGrid[(Mouse.GetState().Y / GridScreenDivisor) + y]
+                                [(Mouse.GetState().X / GridScreenDivisor) + x] = new Color(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
                     }
                 }
             }
