@@ -20,12 +20,15 @@ namespace RaycastGame
         }
         public static Color? GetRayCollisionType(float X, float Y)
         {
-            if (X < 20 || Y < 20 || X > Game1.Grid.Count - 20 || Y > Game1.Grid.Count - 20)
+            int XGridPos = (int)(X / Game1.GridScreenDivisor);
+            int YGridPos = (int)(Y / Game1.GridScreenDivisor);
+
+            if (XGridPos < 5 || YGridPos < 5 || XGridPos > Game1.Grid[0].Count - 5 || YGridPos > Game1.Grid.Count - 5)
             {
                 return null;
             }
 
-            return Game1.Grid[(int)(Y / Game1.GridScreenDivisor)][(int)(X / Game1.GridScreenDivisor)];
+            return Game1.Grid[YGridPos][XGridPos];
         }
 
         public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation)
