@@ -15,8 +15,10 @@ namespace RaycastGame
         public Color RayPointColor = Color.White;
 
         public const float CastRayJumpDistance = 0.125F;
-        public const int   CastRayCount = 460;
-        public const float CastRayWidth = 4;
+        public const int   CastRayCountDefault = 460;
+        public float CastRayWidthDefault = 4;
+        public int CastRayCount = 460;
+        public float CastRayWidth = 4;
         public const float CastRayDistanceStart = 5;
         public const float CastRayDistanceRange = 500;
         public const bool  CastDistanceShadow = true;

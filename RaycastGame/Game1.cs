@@ -158,7 +158,7 @@ namespace RaycastGame
             _spriteBatch.Draw(White, new Rectangle(0, _graphics.PreferredBackBufferHeight / 2 + 40, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Settings.GroundColor);
 
 
-            Raycast.CastRays(_spriteBatch, Player.X, Player.Y, Player.Rotation);
+            Raycast.CastRays(_spriteBatch, Player.X, Player.Y, Player.Rotation, Settings);
 
 
 

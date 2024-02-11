@@ -31,7 +31,7 @@ namespace RaycastGame
             return Game1.GameGrid[YGridPos][XGridPos];
         }
 
-        public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation)
+        public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation, Settings Settings)
         {
             int RayCount = Settings.CastRayCount;
             float RayAngleJump = 120F / (float)RayCount; // This each pixel
@@ -40,14 +40,14 @@ namespace RaycastGame
             for (int i = 0; i < RayCount; i++)
             {
                 CastSingleRay(_spritebatch, X, Y, Settings.CastRayDistanceStart, Settings.CastRayDistanceRange, 
-                                                        (Rotation + CurrentAngle) * (float)(Math.PI / 180), (int)(i * Settings.CastRayWidth));
+                                                        (Rotation + CurrentAngle) * (float)(Math.PI / 180), (int)(i * Settings.CastRayWidth), Settings);
 
                 CurrentAngle += RayAngleJump;
             }
 
             Game1.RenderedSpritePositions.Clear();
         }
-        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance)
+        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance, Settings Settings)
         {
             int MaxPoints = (int)(Length / Settings.CastRayJumpDistance);
             float PointsBeforeCheck = DistanceFromOrig / Settings.CastRayJumpDistance;
