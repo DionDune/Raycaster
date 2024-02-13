@@ -33,6 +33,9 @@ namespace RaycastGame
 
         public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation, Settings Settings)
         {
+            // Sprite/Player distance, Screen position, Render Size, Opacity
+            List<(float, Vector2, Vector2, float)> SpritesToRender = new List<(float, Vector2, Vector2, float)>();
+
             int RayCount = Settings.CastRayCount;
             float RayAngleJump = 120F / (float)RayCount; // This each pixel
 
@@ -40,14 +43,24 @@ namespace RaycastGame
             for (int i = 0; i < RayCount; i++)
             {
                 CastSingleRay(_spritebatch, X, Y, Settings.CastRayDistanceStart, Settings.CastRayDistanceRange, 
-                                                        (Rotation + CurrentAngle) * (float)(Math.PI / 180), (int)(i * Settings.CastRayWidth), Settings);
+                                                        (Rotation + CurrentAngle) * (float)(Math.PI / 180), (int)(i * Settings.CastRayWidth), SpritesToRender, Settings);
 
                 CurrentAngle += RayAngleJump;
             }
 
+            foreach((float, Vector2, Vector2, float) Sprite in SpritesToRender)
+            {
+                _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item2.X, (int)Sprite.Item2.Y, (int)Sprite.Item3.X, (int)Sprite.Item3.Y), Color.White);
+
+                if (Settings.CastDistanceShadow)
+                {
+                    _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item2.X, (int)Sprite.Item2.Y, (int)Sprite.Item3.X, (int)Sprite.Item3.Y), Color.Black * Sprite.Item4);
+                }
+            }
+
             Game1.RenderedSpritePositions.Clear();
         }
-        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance, Settings Settings)
+        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance, List<(float, Vector2, Vector2, float)> SpritesToRender, Settings Settings)
         {
             int MaxPoints = (int)(Length / Settings.CastRayJumpDistance);
             float PointsBeforeCheck = DistanceFromOrig / Settings.CastRayJumpDistance;
@@ -82,18 +95,36 @@ namespace RaycastGame
                     {
                         Point GridPos = new Point((int)(CurrentX / Game1.GridScreenDivisor), (int)(CurrentY / Game1.GridScreenDivisor));
 
-                        if (!Game1.RenderedSpritePositions.Contains(GridPos))
+                        if (!Game1.RenderedSpritePositions.Contains(GridPos) && SpritesToRender != null)
                         {
-                            _spritebatch.Draw(Game1.Tree, new Rectangle(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F), (int)(CubeHeight * 2F), (int)(CubeHeight * 2F)), Color.White);
+                            //Sorting sprites in order of distance from camera
+                            float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY));
 
-                            if (Settings.CastDistanceShadow)
+                            (float, Vector2, Vector2, float) Sprite = (SpritePlayerDistance,
+                                                                    new Vector2(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F)),
+                                                                    new Vector2((int)(CubeHeight * 2F), (int)(CubeHeight * 2F)),
+                                                                    (1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult);
+
+                            if (SpritesToRender.Count > 0)
                             {
-                                _spritebatch.Draw(Game1.Tree, new Rectangle(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F), (int)(CubeHeight * 2F), (int)(CubeHeight * 2F)), Color.Black * ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult));
+                                for (int x = 0; x < SpritesToRender.Count; x++)
+                                {
+                                    if (SpritePlayerDistance > SpritesToRender[x].Item1 || x == SpritesToRender.Count - 1)
+                                    {
+                                        SpritesToRender.Insert(x, Sprite);
+                                        break;
+                                    }
+                                }
                             }
+                            else
+                            {
+                                SpritesToRender.Add(Sprite);
+                            }
+                            
                             
                             Game1.RenderedSpritePositions.Add(GridPos);
                         }
-                        return;
+                        //return;
                     }
                     else 
                     {
