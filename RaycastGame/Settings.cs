@@ -22,7 +22,7 @@ namespace RaycastGame
         public const float CastRayDistanceStart = 5;
         public const float CastRayDistanceRange = 500;
         public const bool  CastDistanceShadow = true;
-        public const float DistanceShadowMult = 1.5F;
+        public const float DistanceShadowMult = 0.8F;
 
         public static bool RenderAllPoints = false;
         public const int RayPointSize = 2;

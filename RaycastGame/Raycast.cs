@@ -34,7 +34,7 @@ namespace RaycastGame
         public static void CastRays(SpriteBatch _spritebatch, float X, float Y, float Rotation, Settings Settings)
         {
             // Sprite/Player distance, Screen position, Render Size, Opacity
-            List<(float, Vector2, Vector2, float)> SpritesToRender = new List<(float, Vector2, Vector2, float)>();
+            List<(bool IsSprite, float, Vector2, Vector2, Color, float)> SpritesToRender = new List<(bool, float, Vector2, Vector2, Color, float)>();
 
             int RayCount = Settings.CastRayCount;
             float RayAngleJump = 120F / (float)RayCount; // This each pixel
@@ -48,19 +48,31 @@ namespace RaycastGame
                 CurrentAngle += RayAngleJump;
             }
 
-            foreach((float, Vector2, Vector2, float) Sprite in SpritesToRender)
+            foreach((bool, float, Vector2, Vector2, Color, float) Sprite in SpritesToRender)
             {
-                _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item2.X, (int)Sprite.Item2.Y, (int)Sprite.Item3.X, (int)Sprite.Item3.Y), Color.White);
-
-                if (Settings.CastDistanceShadow)
+                if (Sprite.Item1)
                 {
-                    _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item2.X, (int)Sprite.Item2.Y, (int)Sprite.Item3.X, (int)Sprite.Item3.Y), Color.Black * Sprite.Item4);
+                    _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item3.X, (int)Sprite.Item3.Y, (int)Sprite.Item4.X, (int)Sprite.Item4.Y), Sprite.Item5);
+
+                    if (Settings.CastDistanceShadow)
+                    {
+                        _spritebatch.Draw(Game1.Tree, new Rectangle((int)Sprite.Item3.X, (int)Sprite.Item3.Y, (int)Sprite.Item4.X, (int)Sprite.Item4.Y), Color.Black * Sprite.Item6);
+                    }
+                }
+                else
+                {
+                    _spritebatch.Draw(Game1.White, new Rectangle((int)Sprite.Item3.X, (int)Sprite.Item3.Y, (int)Sprite.Item4.X, (int)Sprite.Item4.Y), Sprite.Item5);
+
+                    if (Settings.CastDistanceShadow)
+                    {
+                        _spritebatch.Draw(Game1.White, new Rectangle((int)Sprite.Item3.X, (int)Sprite.Item3.Y, (int)Sprite.Item4.X, (int)Sprite.Item4.Y), Color.Black * Sprite.Item6);
+                    }
                 }
             }
 
             Game1.RenderedSpritePositions.Clear();
         }
-        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance, List<(float, Vector2, Vector2, float)> SpritesToRender, Settings Settings)
+        private static void CastSingleRay(SpriteBatch _spritebatch, float OrigX, float OrigY, float DistanceFromOrig, float Length, float Angle, int ScreenDistance, List<(bool, float, Vector2, Vector2, Color, float)> SpritesToRender, Settings Settings)
         {
             int MaxPoints = (int)(Length / Settings.CastRayJumpDistance);
             float PointsBeforeCheck = DistanceFromOrig / Settings.CastRayJumpDistance;
@@ -100,16 +112,17 @@ namespace RaycastGame
                             //Sorting sprites in order of distance from camera
                             float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY));
 
-                            (float, Vector2, Vector2, float) Sprite = (SpritePlayerDistance,
+                            (bool ,float, Vector2, Vector2, Color, float) Sprite = (true, SpritePlayerDistance,
                                                                     new Vector2(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F)),
                                                                     new Vector2((int)(CubeHeight * 2F), (int)(CubeHeight * 2F)),
+                                                                    Color.White,
                                                                     (1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult);
 
                             if (SpritesToRender.Count > 0)
                             {
                                 for (int x = 0; x < SpritesToRender.Count; x++)
                                 {
-                                    if (SpritePlayerDistance > SpritesToRender[x].Item1 || x == SpritesToRender.Count - 1)
+                                    if (SpritePlayerDistance > SpritesToRender[x].Item2 || x == SpritesToRender.Count - 1)
                                     {
                                         SpritesToRender.Insert(x, Sprite);
                                         break;
@@ -124,16 +137,34 @@ namespace RaycastGame
                             
                             Game1.RenderedSpritePositions.Add(GridPos);
                         }
-                        //return;
                     }
                     else 
                     {
-                        _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), (Color)CollionType);
+                        float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY));
 
-                        if (Settings.CastDistanceShadow)
+                        (bool, float, Vector2, Vector2, Color, float) WallPeice = (false, SpritePlayerDistance,
+                                                                            new Vector2(ScreenDistance, 540 - (CubeHeight / 2)),
+                                                                            new Vector2((int)Settings.CastRayWidth, CubeHeight),
+                                                                            (Color)CollionType,
+                                                                            ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult));
+
+                        if (SpritesToRender.Count > 0)
                         {
-                            _spritebatch.Draw(Game1.White, new Rectangle(ScreenDistance, 540 - (CubeHeight / 2), (int)Settings.CastRayWidth, CubeHeight), Color.Black * ((1 - (1 - (i * OpacityLoss))) * Settings.DistanceShadowMult));
+                            for (int x = 0; x < SpritesToRender.Count; x++)
+                            {
+                                if (SpritePlayerDistance > SpritesToRender[x].Item2 || x == SpritesToRender.Count - 1)
+                                {
+                                    SpritesToRender.Insert(x, WallPeice);
+                                    break;
+                                }
+                            }
                         }
+                        else
+                        {
+                            SpritesToRender.Add(WallPeice);
+                        }
+
+
 
                         return;
                     }
