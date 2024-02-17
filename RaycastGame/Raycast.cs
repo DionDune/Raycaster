@@ -78,46 +78,47 @@ namespace RaycastGame
             float PointsBeforeCheck = DistanceFromOrig / Settings.CastRayJumpDistance;
             float OpacityLoss = 1.2F / MaxPoints;
 
-            float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
-            float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
 
-            Vector2 RayJumpDistance = new Vector2( Settings.CastRayJumpDistance * (float)Math.Cos(Angle),
-                                                   Settings.CastRayJumpDistance * (float)Math.Sin(Angle) );
+            Vector2 CurrentPosition = new Vector2(OrigX + (DistanceFromOrig * (float)Math.Cos(Angle)),
+                                                   OrigY + (DistanceFromOrig * (float)Math.Sin(Angle)));
+            Vector2 RayJumpDistance = new Vector2(Settings.CastRayJumpDistance * (float)Math.Cos(Angle),
+                                                   Settings.CastRayJumpDistance * (float)Math.Sin(Angle));
 
 
             for (int i = 0; i < MaxPoints; i++)
             {
-                CurrentX += RayJumpDistance.X;
-                CurrentY += RayJumpDistance.Y;
+                //CurrentX += RayJumpDistance.X;
+                //CurrentY += RayJumpDistance.Y;
+                CurrentPosition += RayJumpDistance;
 
 
-                Color? CollionType = GetRayCollisionType(CurrentX, CurrentY);
+                Color? CollionType = GetRayCollisionType(CurrentPosition.X, CurrentPosition.Y);
                 // Is not colliding with square
                 if (CollionType == null)
                 {
                     if (Settings.RenderAllPoints)
                     {
-                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentX - Settings.RayPointHalfSize,
-                                                        (int)CurrentY - Settings.RayPointHalfSize,
+                        _spritebatch.Draw(Game1.White, new Rectangle((int)CurrentPosition.X - Settings.RayPointHalfSize,
+                                                        (int)CurrentPosition.Y - Settings.RayPointHalfSize,
                                                         Settings.RayPointSize, Settings.RayPointSize), Color.White * 0.05F);
                     }
                 }
                 else
                 {
-                    int CubeHeight = (int)(180F / (GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY)) / 100));
+                    int CubeHeight = (int)(180F / (GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentPosition.X, CurrentPosition.Y)) / 100));
 
 
 
                     if (CollionType == Game1.TreeCol)
                     {
-                        Point GridPos = new Point((int)(CurrentX / Game1.GridScreenDivisor), (int)(CurrentY / Game1.GridScreenDivisor));
+                        Point GridPos = new Point((int)(CurrentPosition.X / Game1.GridScreenDivisor), (int)(CurrentPosition.Y / Game1.GridScreenDivisor));
 
                         if (!Game1.RenderedSpritePositions.Contains(GridPos) && SpritesToRender != null)
                         {
                             //Sorting sprites in order of distance from camera
-                            float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY));
+                            float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentPosition.X, CurrentPosition.Y));
 
-                            (bool ,float, Vector2, Vector2, Color, float) Sprite = (true, SpritePlayerDistance,
+                            (bool, float, Vector2, Vector2, Color, float) Sprite = (true, SpritePlayerDistance,
                                                                     new Vector2(ScreenDistance - CubeHeight, 540 - (int)(CubeHeight * 1.5F)),
                                                                     new Vector2((int)(CubeHeight * 2F), (int)(CubeHeight * 2F)),
                                                                     Color.White,
@@ -138,14 +139,14 @@ namespace RaycastGame
                             {
                                 SpritesToRender.Add(Sprite);
                             }
-                            
-                            
+
+
                             Game1.RenderedSpritePositions.Add(GridPos);
                         }
                     }
-                    else 
+                    else
                     {
-                        float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentX, CurrentY));
+                        float SpritePlayerDistance = GetDistanceBetween(new Vector2(OrigX, OrigY), new Vector2(CurrentPosition.X, CurrentPosition.Y));
 
                         (bool, float, Vector2, Vector2, Color, float) WallPeice = (false, SpritePlayerDistance,
                                                                             new Vector2(ScreenDistance, 540 - (CubeHeight / 2)),
@@ -173,7 +174,7 @@ namespace RaycastGame
 
                         return;
                     }
-                    
+
                 }
             }
         }
