@@ -80,10 +80,15 @@ namespace RaycastGame
 
             float CurrentX = OrigX + (DistanceFromOrig * (float)Math.Cos(Angle));
             float CurrentY = OrigY + (DistanceFromOrig * (float)Math.Sin(Angle));
+
+            Vector2 RayJumpDistance = new Vector2( Settings.CastRayJumpDistance * (float)Math.Cos(Angle),
+                                                   Settings.CastRayJumpDistance * (float)Math.Sin(Angle) );
+
+
             for (int i = 0; i < MaxPoints; i++)
             {
-                CurrentX += Settings.CastRayJumpDistance * (float)Math.Cos(Angle);
-                CurrentY += Settings.CastRayJumpDistance * (float)Math.Sin(Angle);
+                CurrentX += RayJumpDistance.X;
+                CurrentY += RayJumpDistance.Y;
 
 
                 Color? CollionType = GetRayCollisionType(CurrentX, CurrentY);
