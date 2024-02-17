@@ -87,8 +87,6 @@ namespace RaycastGame
 
             for (int i = 0; i < MaxPoints; i++)
             {
-                //CurrentX += RayJumpDistance.X;
-                //CurrentY += RayJumpDistance.Y;
                 CurrentPosition += RayJumpDistance;
 
 
